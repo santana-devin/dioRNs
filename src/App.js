@@ -1,17 +1,38 @@
 import React from 'react';
-import {View,Text, StyleSheet, SafeAreaView,StatusBar,Image} from 'react-native';
+import {View,Text, StyleSheet, SafeAreaView,StatusBar,Image,Pressable,Linking} from 'react-native';
 
-const colorBackground = '#010409';
+const colorBackground = '#24292f';
+const colorFont = '#FFF';
+const colorFontNick = '#57606a';
 const imageProfile = 'https://avatars.githubusercontent.com/u/60019853?v=4';
+const urlProfileGithub = 'https://github.com/santana-devin';
 const App = () => {
+
+const handlePressGoToProfileGithub = async () =>{
+ console.log('Verificando link');
+ const res = await Linking.canOpenURL(urlProfileGithub);
+ if(res){
+  console.log('Link Aprovado');
+  console.log('Abrindo Link....');
+  await Linking.openURL(urlProfileGithub);  
+ }else{
+   console.log('Problema ao abrir link');
+ }
+}
+
   return (
     <SafeAreaView style={style.container}>
       <StatusBar backgroundColor={colorBackground} barStyle={'dark-content'} />
     <View  style={style.content} >
       <Image accessibilityLabel='Perfil do Github!' source={{uri:imageProfile}} style={style.avata}></Image>
-    </View>
-    <View>
-      <Text style={style.text}>Fabrício Santana</Text>
+      <Text  accessibilityLabel='Nome' style={[style.text,style.textName]}>Fabrício Santana</Text>
+      <Text  accessibilityLabel='NickName' style={[style.text,style.textNick]}>santana-devin</Text>
+      <Text  accessibilityLabel='Description' style={[style.text,style.textDescription]}>Entusiasta de desenvolvimento de projetos.</Text>
+      <Pressable onPress={handlePressGoToProfileGithub}>
+        <View>
+          <Text style={[style.button]} >Abrir no Github</Text>
+        </View>
+      </Pressable>
     </View>
     </SafeAreaView>
   );
@@ -24,13 +45,12 @@ const style = StyleSheet.create({
     justifyContent:'center'
   },
   content:{
-    alignItems:'center'
+    alignItems:'center',
+    paddingHorizontal:20,
   },
   text:{
     fontSize:20,
-    fontWeight: '900',
-    color:'#FF0',
-    textAlign:'center'
+    color:'#FFF',
   },
   avata:{
     width:100,
@@ -38,6 +58,27 @@ const style = StyleSheet.create({
     borderRadius:50,
     borderColor:'white',
     borderWidth:2,
+  },
+  textName:{
+    color: colorFont,
+    fontSize:24,
+    fontWeight:'bold'
+    ,padding:10,
+  },
+  textNick:{
+    color:colorFontNick,
+    fontSize: 20,
+  },
+  textDescription:{
+    color:colorFont,
+    fontSize: 20,
+  },
+  button:{
+    backgroundColor: '#FFF',
+    borderRadius:10,
+    padding:10,
+    paddingHorizontal:40,
+    marginTop:20,
   }
 });
 
